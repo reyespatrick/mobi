@@ -1,18 +1,28 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-slide-x-transition mode="out-in">
+     <UploadList :items = "getItems" @removeItem="removeItem"/>
+  </v-slide-x-transition>
 </template>
-
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
+import UploadList from '@/components/UploadList.vue'
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  computed: {
+    getItems () {
+      return this.$store.getters.getSentItems
+    }
+  },
+  components: { UploadList },
+  data () {
+    return {
+      selected: [2]
+    }
+  },
+  methods: {
+    removeItem (id) {
+      this.$store.dispatch('removeUploadedItem', id)
+    }
   }
 }
 </script>
